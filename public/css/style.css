@@ -1,0 +1,137 @@
+html, body {
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    -webkit-user-select: none;
+}
+
+body {
+    /*background: linear-gradient(90deg, #360033 10%, #0b8793 90%);*/
+    /*background: url('../resources/bg1.jpg') no-repeat center;*/
+    /*background-size: cover;*/
+}
+
+#player {
+    display: flex;
+    flex-flow: column wrap;
+    box-sizing: border-box;
+    height: 100%;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.clear-fix {
+    clear: both;
+}
+
+.left-bar {
+    background: #fff;
+    height: 100%;
+    width: 400px;
+    color: rgb(50, 50, 50);
+    box-shadow: 1px 0 5px rgba(0,0,0, .5);
+}
+
+.search {
+    height: 70px;
+    border-bottom: 1px solid;
+}
+
+section .left-bar .songs-block {
+    padding: 10px;
+}
+
+section .songs-block .music-container {
+    float: left;
+    margin-top: 20px;
+}
+
+section .songs-block .music-container .title {
+    padding-left: 10px;
+}
+
+section .songs-block .music-container li {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 365px;
+}
+
+.input-container {
+    height: 90px;
+    width: 90px;
+    margin-top: 15px;
+}
+
+.add-song {
+    display: inline-block;
+    position: relative;
+    float: right;
+}
+
+.add-song i {
+    color: rgb(90,188,90);
+
+}
+
+.add-song input {
+    outline: none;
+    opacity: 0;
+    width: 13px;
+    height: 16px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.cover {
+    width: 450px;
+    height: 450px;
+    margin: auto 0;
+    display: none;
+}
+
+/*.animate-load {
+    -webkit-animation: loadComplete 1s;
+    animation: loadComplete 1s;
+}
+
+@-webkit-keyframes loadComplete {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    33% {
+        transform: rotate(25deg);
+    }
+
+    66% {
+        transform: rotate(-25deg);
+    }
+
+    100% {
+        transform: rotate(0deg);
+    }
+ }
+
+
+@keyframes loadComplete {
+0% {
+    transform: rotate(0deg);
+}
+
+33% {
+    transform: rotate(25deg);
+}
+
+66% {
+    transform: rotate(-25deg);
+}
+
+100% {
+    transform: rotate(0deg);
+}
+}*/
+
