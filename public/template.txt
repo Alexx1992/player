@@ -1,0 +1,8 @@
+-Player
+    -LeftBar
+        -Search
+        -MusicBox
+            -AddSection
+            -MusicList
+                -Song
+    -?????
