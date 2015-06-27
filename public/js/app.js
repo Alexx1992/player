@@ -3,17 +3,41 @@
  */
 
 var Player = React.createClass({
+    getInitialState: function () {
+        return {songs: []}
+    },
+    componentDidMount: function () {
+        var socket = io(),
+            self = this;
+
+        socket.on('song', function (data) {
+            self.setState(function(previousState) {
+                return previousState.songs.push(data);
+            });
+        });
+    },
     render: function() {
-        return <LeftBar />;
+        return <LeftBar data={this.state.songs} />;
     }
 });
 
 var LeftBar = React.createClass({
        render: function() {
-        return <div className = 'left-bar'>
-                    <Search />
-                    <AddSongs />
-                </div>
+            return <div className = 'left-bar'>
+                        <Search />
+                        <MusicBox data = {this.props.data}/>
+                    </div>
+       }
+});
+
+var MusicBox = React.createClass({
+    render: function() {
+        return <div className = 'songs-block'>
+            <AddSection />
+            <MusicList song = {this.props.data}/>
+            <div className="clear-fix"></div>
+        </div>
+
     }
 });
 
@@ -23,14 +47,11 @@ var MusicList = React.createClass({
             return <li><span className = 'atist'>{itemText.artist}</span>
                         <span className = 'title'>{itemText.title}</span></li>;
         };
-        return <ul className = 'music-container'>{this.props.songs.map(createItem)}</ul>;
+        return <ul className = 'music-container'>{this.props.song.map(createItem)}</ul>;
     }
 });
 
-var AddSongs = React.createClass({
-    getInitialState: function() {
-        return {songs: []};
-    },
+var AddSection = React.createClass({
     componentDidMount: function() {
         var self = this;
         $(this.getDOMNode()).find('input').on('change', function() {
@@ -48,11 +69,12 @@ var AddSongs = React.createClass({
                     len,
                     base64,
                     cover = tags.picture;
-                self.state.songs.push({
+                socket.emit('song', {
                     artist: tags.artist,
                     title: tags.title
                 });
-                self.setState({songs: self.state.songs});
+
+                //self.setState({songs: self.state.songs});
 
                 /*if(cover) {
                  len = cover.data.length;
@@ -84,13 +106,9 @@ var AddSongs = React.createClass({
     },
     render: function() {
         return (
-            <div className = 'songs-block'>
-                <div className="add-song">
-                    <i className="fa fa-plus fa-1x"></i>
-                    <input id="input-container" type="file" className="pointer" />
-                </div>
-                <MusicList songs={this.state.songs} />
-                <div className="clear-fix"></div>
+            <div className="add-song">
+                <i className="fa fa-plus fa-1x"></i>
+                <input id="input-container" type="file" className="pointer" />
             </div>
         );
     }
@@ -99,7 +117,6 @@ var AddSongs = React.createClass({
 var Search = React.createClass({
     render: function() {
         return <div className="search"></div>;
-
     }
 });
 

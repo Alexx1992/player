@@ -57,6 +57,11 @@ section .songs-block .music-container li {
     white-space: nowrap;
     text-overflow: ellipsis;
     width: 365px;
+    padding: 10px;
+}
+
+section .songs-block .music-container li:first-of-type {
+    background: rgb(230, 227, 229);
 }
 
 .input-container {
