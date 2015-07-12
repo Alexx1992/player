@@ -4,123 +4,108 @@
 
 var Player = React.createClass({
     getInitialState: function () {
-        return {songs: []}
+        return { songs: [] };
     },
+
     componentDidMount: function () {
-        var socket = io(),
-            self = this;
-
-        socket.on('song', function (data) {
-            self.setState(function(previousState) {
-                return previousState.songs.push(data);
+        console.log('componentDidMount');
+        socket.getData(function(data) {
+            data.forEach(function (item) {
+                if(!item.cover) {
+                    item.cover = '../resources/empty-cover.jpg';
+                }
             });
-        });
+            this.setState({songs: data});
+        }.bind(this));
     },
-    render: function() {
-        return <LeftBar data={this.state.songs} />;
-    }
-});
 
-var LeftBar = React.createClass({
-       render: function() {
-            return <div className = 'left-bar'>
-                        <Search />
-                        <MusicBox data = {this.props.data}/>
-                    </div>
-       }
+    render: function() {
+        return <div className = 'player-container'>
+                    <ControlPanel />
+                    <MusicBox songs = {this.state.songs}/>
+               </div>
+
+    }
 });
 
 var MusicBox = React.createClass({
     render: function() {
-        return <div className = 'songs-block'>
-            <AddSection />
-            <MusicList song = {this.props.data}/>
-            <div className="clear-fix"></div>
-        </div>
-
-    }
-});
-
-var MusicList = React.createClass({
-    render: function() {
-        var createItem = function(itemText) {
-            return <li><span className = 'atist'>{itemText.artist}</span>
-                        <span className = 'title'>{itemText.title}</span></li>;
-        };
-        return <ul className = 'music-container'>{this.props.song.map(createItem)}</ul>;
-    }
-});
-
-var AddSection = React.createClass({
-    componentDidMount: function() {
-        var self = this;
-        $(this.getDOMNode()).find('input').on('change', function() {
-            var files  = this.files[0];
-            //self.loadMusic(files);
-            self.getID3Data(files);
+        var createItem = this.props.songs.map(function(item) {
+            return <Music song={item}/>;
         });
+        return <div className = 'music-container'>{createItem}</div>;
+    }
+});
+
+var Music = React.createClass({
+    hover: function() {
+        $(this.getDOMNode()).find('.control-blackout.play').fadeIn(200);
     },
-    getID3Data: function(file) {
-        var self = this;
-        ID3.loadTags(file.name, function() {
-                var tags = ID3.getAllTags(file.name),
-                    base64String = '',
-                    i = 0,
-                    len,
-                    base64,
-                    cover = tags.picture;
-                socket.emit('song', {
-                    artist: tags.artist,
-                    title: tags.title
-                });
+    noHover: function() {
+        $(this.getDOMNode()).find('.control-blackout.play').fadeOut(200);
+    },
+    playSong: function() {
+        $(this.getDOMNode()).find('.control-blackout.play').hide();
+        $(this.getDOMNode()).find('.control-blackout.pause').show();
 
-                //self.setState({songs: self.state.songs});
+        this.plaingSong = new Howl({
+            buffer: true,
+            urls: [this.props.song.link]
+        }).play();
+    },
 
-                /*if(cover) {
-                 len = cover.data.length;
-                 while(i < len) {
-                 base64String = base64String + String.fromCharCode(cover.data[i]);
-                 i++;
-                 }
-                 base64 = 'data:' + cover.format + ';base64,'
-                 + btoa(base64String);
-                 $('.cover').attr('src', base64).show();
-                 }*/
-            },
-            {
-                tags: ["title","artist","album","picture"],
-                dataReader: FileAPIReader(file)
+    pauseSong: function() {
+        this.plaingSong.pause();
+        $(this.getDOMNode()).find('.control-blackout.play').show();
+        $(this.getDOMNode()).find('.control-blackout.pause').hide();
+    },
+    render: function () {
+        return <div className = 'song-container'>
+                    <div className="play-container">
+                        <div className="control-blackout play" onMouseOut = {this.noHover}
+                             onClick = {this.playSong}></div>
+                        <div className="control-blackout pause"
+                             onClick = {this.pauseSong}></div>
+                        <img src = {this.props.song.cover} onMouseOver = {this.hover}  />
+                    </div>
+                    <div className = 'title'>{this.props.song.title}</div>
+                    <div className = 'artist'>{this.props.song.artist}</div>
+                </div>
+    }
+});
+
+var ControlPanel = React.createClass({
+    assembleFiles: function(event) {
+        var files = event.target.files[0];
+
+        helperFunction.loadMusic(files, function(dataMusic) {
+            helperFunction.getID3Data(files, function(ID3Res) {
+                socket.sendData(helperFunction.extendObject(dataMusic, ID3Res));
             });
-    },
-    loadMusic: function(file) {
-        var reader = new FileReader();
-
-        reader.onload = function(event) {
-            new Howl({
-                buffer: true,
-                urls: [event.target.result]
-            }).play();
-        };
-
-        reader.readAsDataURL(file);
+         });
     },
     render: function() {
-        return (
-            <div className="add-song">
-                <i className="fa fa-plus fa-1x"></i>
-                <input id="input-container" type="file" className="pointer" />
-            </div>
-        );
+        return <div className = 'controllers'>
+                    <div className = "add-song">
+                        <div>+</div>
+                        <input id="input-container" type="file" className="pointer" onChange = {this.assembleFiles}/>
+                    </div>
+                    <div className="player-control"></div>
+                </div>
+
     }
 });
 
-var Search = React.createClass({
-    render: function() {
-        return <div className="search"></div>;
-    }
-});
 
 React.render(
     <Player />,
     document.getElementById('player')
 );
+
+
+/*<i className="fa fa-plus fa-1x"></i>*/
+/*<li><span className = 'atist'>{itemText.artist}</span>
+ <span className = 'title'>{itemText.title}</span></li>;*/
+
+/*<ControlPanel />
+ */
