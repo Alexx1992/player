@@ -27,10 +27,13 @@ html, body {
     background: #000;
     display: flex;
     align-items: flex-end;
+    position: relative;
 }
 
 .player-container .controllers .add-song {
-    display: inline-block;
+    position: absolute;
+    bottom: 0;
+    z-index: 999;
     border: 3px solid rgb(225, 225, 225);
     border-radius: 50%;
     text-align: center;
@@ -38,8 +41,6 @@ html, body {
     width: 34px;
     margin-bottom: 10px;
     margin-left: 50px;
-    position: relative;
-    z-index: 999;
 }
 
 .player-container .controllers .add-song  div {
@@ -58,6 +59,18 @@ html, body {
     position: absolute;
     top: 6px;
     left: 6px;
+}
+
+.controllers .player-control {
+    margin: auto auto 0;
+}
+
+.controllers .player-control img {
+    padding: 10px;
+}
+
+.controllers .player-control img.back {
+    transform: rotateZ(180deg)
 }
 
 #player .music-container {

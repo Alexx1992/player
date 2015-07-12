@@ -90,9 +90,12 @@ var ControlPanel = React.createClass({
                         <div>+</div>
                         <input id="input-container" type="file" className="pointer" onChange = {this.assembleFiles}/>
                     </div>
-                    <div className="player-control"></div>
+                    <div className="player-control">
+                        <img src = "../resources/control.svg" className = 'back'/>
+                        <img src = "../resources/play_c.svg" />
+                        <img src = "../resources/control.svg" />
+                    </div>
                 </div>
-
     }
 });
 
