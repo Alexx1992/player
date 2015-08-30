@@ -9,10 +9,8 @@ var stream = (function(){
             db.find({}, cb);
         },
 
-        write: function(data) {
-            db.insert(data, function(err, newDoc) {
-
-            });
+        write: function(data, cb) {
+            db.insert(data, cb);
         }
     }
 })();

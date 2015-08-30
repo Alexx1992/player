@@ -3,6 +3,7 @@ html, body {
     overflow: hidden;
     margin: 0;
     -webkit-user-select: none;
+    font-size: 100%;
 }
 
 #player {
@@ -23,8 +24,11 @@ html, body {
 }
 
 .player-container .controllers {
-    height: 20%;
-    background: #000;
+    height: 50px;
+    padding: 1em;
+    /*background:         linear-gradient(90deg, #F1F2B5 5%, #135058 95%);*/
+    background: linear-gradient(90deg, #348F50 10%, #56B4D3 90%);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, .4);
     display: flex;
     align-items: flex-end;
     position: relative;
@@ -32,33 +36,27 @@ html, body {
 
 .player-container .controllers .add-song {
     position: absolute;
-    bottom: 0;
+    top: 0;
+    left: 0;
     z-index: 999;
-    border: 3px solid rgb(225, 225, 225);
-    border-radius: 50%;
+    border-radius: 0 0 100%;
     text-align: center;
-    height: 34px;
-    width: 34px;
-    margin-bottom: 10px;
-    margin-left: 50px;
+    height: 50px;
+    width: 50px;
+    background: #fff;
+    cursor: pointer;
 }
 
 .player-container .controllers .add-song  div {
-    color: rgb(225, 225, 225);
-    padding: 2px;
-    font-size: 35px;
+    font-size: 40px;
     font-weight: bold;
-    line-height: .9;
+    position: absolute;
+    left: 10px;
 }
 
-.player-container .controllers .add-song input {
-    outline: none;
+.player-container .controllers [type=file] {
+    display: none !important;
     opacity: 0;
-    width: 30px;
-    height: 30px;
-    position: absolute;
-    top: 6px;
-    left: 6px;
 }
 
 .controllers .player-control {
@@ -75,6 +73,7 @@ html, body {
 
 #player .music-container {
     display: flex;
+    flex-wrap: wrap;
     height: 80%;
     padding: 25px 20px 0;
 }
