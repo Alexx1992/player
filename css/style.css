@@ -94,6 +94,10 @@ html, body {
     border-radius: 8px;
 }
 
+.song-container .cover:hover .control-blackout {
+    display: block;
+}
+
 .song-container .control-blackout {
     display: none;
     position: absolute;
@@ -102,15 +106,15 @@ html, body {
     border-radius: 8px;
 }
 
-.song-container .control-blackout.play {
+.song-container .control-blackout {
     background: url('../resources/play.svg') rgba(0, 0, 0, .5) no-repeat 50%;
     background-size: contain;
 }
 
-.song-container .control-blackout.pause {
-    display: none;
+.song-container .cover.playing .control-blackout {
     background: url('../resources/pause.svg') rgba(0, 0, 0, .5) no-repeat 50%;
     background-size: contain;
+    display: block;
 }
 
 .song-container .artist {

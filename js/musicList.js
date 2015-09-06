@@ -16,23 +16,18 @@ var Music = React.createClass({
         return { loadedSong: player.loadSong(this.props.song.file) };
     },*/
 
-    hover: function() {
-        $(this.getDOMNode()).find('.control-blackout.play').fadeIn(200);
-    },
-    noHover: function() {
-        $(this.getDOMNode()).find('.control-blackout.play').fadeOut(200);
-    },
+    play: function() {
+        var cover = React.findDOMNode(this.refs.cover),
+            className = cover.className;
+        if(className.indexOf('playing') === -1) {
+            className += ' playing';
+            //player.playSong();
+        } else {
+            className = className.slice(0, 5);
+            //player.pauseSong();
+        }
 
-    playSong: function() {
-        $(this.getDOMNode()).find('.control-blackout.play').hide();
-        $(this.getDOMNode()).find('.control-blackout.pause').show();
-        console.log(this);
-        //player.playSong();
-    },
-    pauseSong: function() {
-        player.pauseSong();
-        $(this.getDOMNode()).find('.control-blackout.play').show();
-        $(this.getDOMNode()).find('.control-blackout.pause').hide();
+        cover.className = className;
     },
 
     endSong: function() {
@@ -44,12 +39,9 @@ var Music = React.createClass({
     render: function () {
         console.log(this);
         return <div className = 'song-container'>
-            <div className="play-container">
-                <div className="control-blackout play" onMouseOut = {this.noHover}
-                     onClick = {this.playSong}></div>
-                <div className="control-blackout pause"
-                     onClick = {this.pauseSong}></div>
-                <img src = {this.props.song.cover} onMouseOver = {this.hover}  />
+            <div className = "cover" onClick = {this.play} ref = "cover">
+                <div className = "control-blackout"></div>
+                <img src = {this.props.song.cover}  />
             </div>
             <div className = 'title'>{this.props.song.title}</div>
             <div className = 'artist'>{this.props.song.artist}</div>
