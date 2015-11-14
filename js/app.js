@@ -11,7 +11,7 @@ var Player = React.createClass({
             var len = data.length, i = 0;
             while(i < len) {
                 if(!data[i].cover) {
-                    data[i].cover = './resources/empty-cover.jpg';
+                    data[i].cover = './resources/empty-cover.jpg'
                 }
                 i++;
             }
